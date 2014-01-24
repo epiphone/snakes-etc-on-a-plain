@@ -3,6 +3,7 @@ Contains the PhysicalObject class.
 """
 
 import pyglet
+import utils
 
 
 class PhysicalObject(pyglet.sprite.Sprite):
@@ -21,3 +22,12 @@ class PhysicalObject(pyglet.sprite.Sprite):
         """
         self.x += self.vel_x * dt
         self.y += self.vel_y * dt
+
+    def collides_with(self, other_obj):
+        """
+        Return True if object collides with another.
+        """
+        collision_distance = self.width*0.5 + other_obj.width*0.5
+        actual_distance = utils.distance(self.position, other_obj.position)
+
+        return actual_distance <= collision_distance

@@ -3,13 +3,15 @@ Player object.
 """
 
 from pyglet.window import key
+import resources
 from physicalobject import PhysicalObject
+
 
 class Player(PhysicalObject):
     """PhysicalObject with input capabilities."""
 
     def __init__(self, *args, **kwargs):
-        super(Player, self).__init__(*args, **kwargs)
+        super(Player, self).__init__(img=resources.anim_player, *args, **kwargs)
 
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self, self.key_handler]

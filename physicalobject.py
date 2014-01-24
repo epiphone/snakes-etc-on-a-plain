@@ -12,6 +12,7 @@ class PhysicalObject(pyglet.sprite.Sprite):
     def __init__(self, *args, **kwargs):
         super(PhysicalObject, self).__init__(*args, **kwargs)
         self.vel_x, self.vel_y = 0.0, 0.0
+        self.event_handlers = []
 
 
     def update(self, dt):

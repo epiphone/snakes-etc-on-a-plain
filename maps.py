@@ -10,10 +10,10 @@ from map_objs import Tile, Trap
 map1 = """
 
 
-p      v
-xxxx   xxx
-    xxx
-          """
+p      xx
+xxxx
+    xxxv
+xxxxxxxxxx"""
 
 class Map(object):
     """A map object with position and drawing."""

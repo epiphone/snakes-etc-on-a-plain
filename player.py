@@ -16,11 +16,12 @@ class Player(PhysicalObject):
 
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self, self.key_handler]
-        self.vel_x, self.vel_y = 0.0, -50.0
+        self.vel_x, self.vel_y = 0.0, -1.0
         self.is_falling = False
         self.fall = {
-            'speed': 100,
-            'multiplier': 1.1
+            'speed': 80,
+            'multiplier': 1.2,
+            'max_speed': 200
         }
         self.speed = 0
         self.top_speed = 500
@@ -49,101 +50,67 @@ class Player(PhysicalObject):
             pass
 
         tile_size = game_map.tile_size
+        right_coll_col, left_coll_col = None, None
 
         clipped_col_indexes = []
         for col_index, col in enumerate(game_map.get_columns()):
             if col_index * tile_size - game_map.scroll_x > self.x + self.width:
+                right_coll_col = col_index
                 break
-                # TODO this index is useful for detecting right side collisions
+
             if col_index * tile_size + tile_size - game_map.scroll_x < self.x:
-                # TODO this index is useful for detecting left side collisions
+                left_coll_col = col_index
                 continue
             clipped_col_indexes.append(col_index)
 
-        assert len(game_map.rows) == 6
+        bottom_collides_with = None
         floor_y = None
         for row_index, row in enumerate(game_map.rows):
             row_top_y = (len(game_map.rows) - row_index) * tile_size
             if row_top_y < self.y:
-                if any(type(row[col_index]) == Tile for col_index in clipped_col_indexes):
-                    floor_y = row_top_y
+                bottom_colliders = [row[col_index] for col_index in clipped_col_indexes]
+                for obj in bottom_colliders:
+                    if type(obj) == Tile and bottom_collides_with is None:
+                        bottom_collides_with = obj
+                    elif type(obj) == Trap:
+                        bottom_collides_with = obj
+                if bottom_collides_with is not None:
                     break
 
-        print clipped_col_indexes, floor_y, self.y
-        # print self.vel_y, self.y, self.y + self.vel_y*dt, floor_y, "dt=", dt
-        if floor_y and self.y + self.vel_y*dt <= floor_y:
-            self.y = floor_y + 1
-        else:
-            # self.vel_y = -20
+                # if any(type(obj) == Trap for obj in bottom_colliders):
+                #     bottom_collides_with = obj
+                # elif any(type(obj) == Tile for obj in bottom_colliders):
+                #     floor_y = row_top_y
+                #     bottom_collides_with = obj
+                # if bottom_collides_with:
+                #     break
+        if bottom_collides_with is None:
+            self.x += self.vel_x * dt
             self.y += self.vel_y * dt
-        self.x += self.vel_x * dt
+
+        elif type(bottom_collides_with) == Trap:
+            print "hit a trap!"
+        else:
+            if self.y + self.vel_y*dt <= bottom_collides_with.y + tile_size:
+                self.y = bottom_collides_with.y + tile_size + 1
+                self.set_falling(False)
+            else:
+                self.y += self.vel_y * dt
+                self.set_falling(True)
+            self.x += self.vel_x * dt
 
 
-
-        # bottom_obj = None
-        # for row_index, row in enumerate(game_map.rows):
-        #     if (len(game_map.rows)-row_index)*tile_size + tile_size < self.y:
-        #         for col_index in clipped_col_indexes:
-        #             if type(row[col_index]) == Tile:
-        #                 bottom_obj = row[col_index]
-        #                 break
-
-        # if bottom_obj:
-        #     if self.y + self.vel_y*dt <= bottom_obj.y + bottom_obj.height:
-        #         self.vel_y = 0
-        #         self.y = bottom_obj.y + bottom_obj.height + 1
-        #     else:
-        #         self.vel_y = -50
-        # else:
-        #     self.y += self.vel_y * dt
-
-
-
-        # self.x += self.vel_x * dt
-
-        # clipped_row_indexes = []
-        # for row_index in xrange(len(game_map.rows)):
-        #     if (len(game_map.rows)-row_index) * tile_size + tile_size < self.y:
-        #         break
-        #     if (len(game_map.rows)-row_index) * tile_size > self.y + self.height:
-        #         continue
-        #     clipped_row_indexes.append(row_index)
-
-
-
-
-
-        # if self.vel_y <= 0:
-        #     bounding_border = self.y
-        #     bounding_y = None
-        #     for row_index, row in enumerate(game_map.rows):
-        #         row_top_y = row_index*game_map.tile_size + game_map.tile_size
-        #         if row_top_y < bounding_border:
-        #             bounding_y = row_top_y
-        #         else:
-        #             break
-        #     a
-        #     if bounding_y:
-        #         print "bounding_y: ", bounding_y
-
-
-
-    # def set_falling(self, is_falling):
-
-    #     if is_falling:
-    #         self.vel_y = -100
-    #     else:
-    #         self.vel_y = 0
-    #     # if self.is_falling:
-        #     if is_falling:
-        #         self.vel_y *= self.fall['multiplier']
-        #     else:
-        #         print "stopped falling"
-        #         self.vel_y = 0
-        # else:
-        #     if is_falling:
-        #         print "started falling"
-        #         self.vel_y = -self.fall['speed']
-        #     else:
-        #         self.vel_y = 0
-        # self.is_falling = is_falling
+    def set_falling(self, is_falling):
+        if self.is_falling:
+            if is_falling:
+                self.vel_y = min(self.fall['multiplier']*self.vel_y, self.fall['max_speed'])
+            else:
+                print "stopped falling"
+                self.vel_y = -self.fall['speed']
+        else:
+            if is_falling:
+                print "started falling"
+                self.vel_y = min(self.fall['multiplier']*self.vel_y, self.fall['max_speed'])
+            else:
+                self.vel_y = -self.fall['speed']
+        self.is_falling = is_falling

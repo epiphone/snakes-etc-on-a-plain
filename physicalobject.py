@@ -13,7 +13,6 @@ class PhysicalObject(pyglet.sprite.Sprite):
     def __init__(self, *args, **kwargs):
         super(PhysicalObject, self).__init__(*args, **kwargs)
         self.vel_x, self.vel_y = 0.0, 0.0
-        self.prev_x, self.prev_y = 0.0, 0.0
         self.event_handlers = []
 
 
@@ -21,20 +20,18 @@ class PhysicalObject(pyglet.sprite.Sprite):
         """
         Advances PhysicalObject by given timestep.
         """
-        self.prev_x = self.x
-        self.prev_y = self.y
         self.x += self.vel_x * dt
         self.y += self.vel_y * dt
 
 
-    # def collides_with(self, other_obj):
-    #     """
-    #     Return True if object collides with another.
-    #     """
-    #     collision_distance = self.width*0.5 + other_obj.width*0.5
-    #     actual_distance = distance(self.position, other_obj.position)
+    def collides_with(self, other_obj):
+        """
+        Return True if object collides with another.
+        """
+        collision_distance = self.width*0.5 + other_obj.width*0.5
+        actual_distance = distance(self.position, other_obj.position)
 
-    #     return actual_distance <= collision_distance
+        return actual_distance <= collision_distance
 
     def bottom_collides(self, other):
         """

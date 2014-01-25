@@ -3,7 +3,7 @@ Everything map-related.
 """
 
 from player import Player
-from map_objs import Tile, Trap
+from map_objs import Tile, Trap, Crushable
 
 
 map1 = """
@@ -12,8 +12,8 @@ map1 = """
          xxxxxxx          xxv
 x      xx      x      xx
 x 1 2                           xxxxxx
-xxxxx      xx  x   xxx          x
-     xxx   xx        x               x
+xxxxx  h   xx  x   xxx          x
+     xxx h xx        x               x
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"""
 
 
@@ -61,8 +61,8 @@ class Map(object):
             '2': Player,
             'x': Tile,
             'v': Trap,
-            ' ': None,
-            'h': None
+            'h': Crushable,
+            ' ': None
         }
 
         player1, player2 = None, None
@@ -83,13 +83,16 @@ class Map(object):
                     row.append(None)
                 elif obj == Player:
                     if player1 is None:
-                        player1 = Player(x=left_top_x, y=left_top_y -self.tile_size + 1, batch=self.batch)
+                        player1 = Player(x=left_top_x, y=left_top_y -self.tile_size + 1,
+                            batch=self.batch)
                         row.append(player1)
                     else:
-                        player2 = Player(x=left_top_x, y=left_top_y -self.tile_size + 1, use_arrow_keys=True, batch=self.batch)
+                        player2 = Player(x=left_top_x, y=left_top_y -self.tile_size + 1,
+                            use_arrow_keys=True, batch=self.batch)
                         row.append(player2)
                 else:
-                    row.append(obj(x=left_top_x, y=left_top_y - self.tile_size + 1, batch=self.batch))
+                    row.append(obj(x=left_top_x, y=left_top_y - self.tile_size + 1,
+                        batch=self.batch))
             rows.append(row)
 
         assert player1 is not None and player2 is not None and type(player1) == Player

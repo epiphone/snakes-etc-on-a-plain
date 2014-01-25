@@ -25,3 +25,4 @@ anim_bird = pyglet.image.Animation.from_image_sequence(imgs_bird, 0.05, True)
 
 img_tile = pyglet.resource.image('tile.png')
 img_trap = pyglet.resource.image('trap.png')
+img_crushable = pyglet.resource.image('Mud.png')

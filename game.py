@@ -17,16 +17,15 @@ tile_size = 64
 game_map = None
 
 
-def init(init_map=None):
+def init(init_map):
     """
     Initializes the game.
     """
     global game_map
-    if init_map is None:
-        init_map = maps.map1
     game_map = maps.Map(init_map, main_batch, scroll_speed)
     game_window.push_handlers(game_map.player1.key_handler)
     game_window.push_handlers(game_map.player2.key_handler)
+
 
 @game_window.event
 def on_key_press(symbol, modifiers):

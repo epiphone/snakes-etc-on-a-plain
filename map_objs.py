@@ -12,7 +12,8 @@ class Tile(PhysicalObject):
     """
 
     def __init__(self, *args, **kwargs):
-        super(Tile, self).__init__(img=resources.img_tile, *args, **kwargs)
+        super(Tile, self).__init__(
+            img=resources.img_tile, *args, **kwargs)
 
 
 class Trap(PhysicalObject):
@@ -21,6 +22,16 @@ class Trap(PhysicalObject):
     """
 
     def __init__(self, *args, **kwargs):
-        super(Trap, self).__init__(img=resources.img_trap, *args, **kwargs)
+        super(Trap, self).__init__(
+            img=resources.img_trap, *args, **kwargs)
+
+
+class Crushable(PhysicalObject):
+    """
+    A block that can be crushed.
+    """
+    def __init__(self, *args, **kwargs):
+        super(Crushable, self).__init__(
+            img=resources.img_crushable, *args, **kwargs)
 
 

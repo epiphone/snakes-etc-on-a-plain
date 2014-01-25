@@ -12,15 +12,15 @@ game_window = pyglet.window.Window(800, 600)
 main_batch = pyglet.graphics.Batch()
 game_objects = []
 scroll_speed = 10
-game_map = None
 tile_size = 64
+game_map = None
+
 
 def init():
     """
     Initializes the game.
     """
     global game_map
-
     game_map = maps.Map(maps.map1, main_batch)
     for map_obj in game_map.map_objs:
         if type(map_obj) == Player:
@@ -42,15 +42,38 @@ def update(dt):
     """
     Updates the game world by given timestep.
     """
-    for obj in game_objects:
-        obj.update(dt)
     game_map.scroll_map(dt * scroll_speed)
 
-    # Player falling
     player = game_objects[0]  # TODO
-    bottom_y = player.y - tile_size
-    left_x, right_x = player.x, player.x + tile_size
+    player.update(dt, game_map)
+    # collided_x = False
+    # collided_y = False
+    # is_falling = True
 
+
+
+    # for obj in game_map.map_objs:
+    #     if type(obj) == Player:
+    #         continue
+    #     if not collided_y:
+    #         if player.bottom_collides(obj):
+    #             is_falling = False
+    #             collided_y = True
+    #             # player.prev_y = obj.y + obj.height + 1
+    #             player.y = obj.y + obj.height + 1
+    #         elif player.top_collides(obj):
+    #             collided_y = True
+
+    #     # if not collided_x:
+    #     #     if player.right_collides(obj):
+    #     #         collided_x = True
+    #     #     elif player.left_collides(obj):
+    #     #         collided_x = True
+
+    #     # if collided_y and collided_x:
+    #     #     break
+
+    # player.set_falling(is_falling)
 
 
 def main():

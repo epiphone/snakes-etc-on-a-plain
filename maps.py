@@ -4,7 +4,7 @@ Everything map-related.
 
 from physicalobject import PhysicalObject
 from player import Player
-from map_objs import Tile
+from map_objs import Tile, Trap
 
 
 map1 = """
@@ -22,6 +22,8 @@ class Map(object):
         self.batch = batch
         self.tile_size = tile_size
         self.rows = self.parse_map(map_str)
+        self.columns = self.get_columns()
+        self.height = len(self.rows)*self.tile_size
         self.map_objs = self.get_map_objects()
         self.scroll_x = 0
 
@@ -31,19 +33,28 @@ class Map(object):
         """
         self.scroll_x += scroll_x
         for row in self.rows:
-            for col_index, obj in enumerate(row):
-                if obj is None or type(obj) == Player:
-                    continue
+            for obj in row:
+                if obj is not None and type(obj) != Player:
+                    obj.x -= scroll_x
+        # for obj in self.map_objs:
+        #     if type(obj) != Player:
+        #         obj.x -= scroll_x
+        # for row in self.rows:
+        #     for col_index, obj in enumerate(row):
+        #         if obj is None or type(obj) == Player:
+        #             continue
 
-                left_top_x = self.tile_size * col_index - self.scroll_x
-                obj.x = left_top_x
+        #         left_top_x = self.tile_size * col_index - self.scroll_x
+        #         obj.x = left_top_x
 
     def draw(self):
         """
         TODO: skip traversing through null values.
         """
-        for obj in self.map_objs:
-            obj.draw()
+        for row in self.rows:
+            for obj in row:
+                if obj is not None and type(obj) != Player:
+                    obj.draw()
 
 
     def parse_map(self, map_str):
@@ -77,6 +88,17 @@ class Map(object):
             rows.append(row)
 
         return rows
+
+    def get_columns(self):
+        """
+        """
+        cols = []
+        for i in range(len(self.rows[0])):
+            col = []
+            for row in self.rows:
+                col.append(row[i])
+            cols.append(col)
+        return cols
 
 
     def get_map_objects(self):

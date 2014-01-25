@@ -2,8 +2,6 @@
 Utility functions.
 """
 
-
-
 def distance(p1=(0, 0), p2=(0, 0)):
     """
     Returns the distance between two points.

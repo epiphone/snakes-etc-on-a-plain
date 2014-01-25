@@ -8,13 +8,14 @@ from map_objs import Tile, Trap
 
 map1 = """
 
-           v   v
-       2 xxxxxxx
+               v
+         xxxxxxx          xxv
 x      xx      x      xx
-x 1
-xxxxx      xx  x   xxx
-     xxx   xx        x
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"""
+x 1 2                           xxxxxx
+xxxxx      xx  x   xxx          x
+     xxx   xx        x               x
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"""
+
 
 
 class Map(object):
@@ -60,7 +61,8 @@ class Map(object):
             '2': Player,
             'x': Tile,
             'v': Trap,
-            ' ': None
+            ' ': None,
+            'h': None
         }
 
         player1, player2 = None, None

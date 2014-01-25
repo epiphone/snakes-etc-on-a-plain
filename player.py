@@ -6,6 +6,7 @@ from pyglet.window import key
 import resources
 from physicalobject import PhysicalObject
 from map_objs import Tile, Trap
+from form_attrs import set_form
 import audio
 
 
@@ -13,7 +14,7 @@ class Player(PhysicalObject):
     """PhysicalObject with input capabilities."""
 
     def __init__(self, use_arrow_keys=False, *args, **kwargs):
-        super(Player, self).__init__(img=resources.anim_player, *args, **kwargs)
+        super(Player, self).__init__(img=resources.anim_default, *args, **kwargs)
 
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self, self.key_handler]
@@ -32,37 +33,23 @@ class Player(PhysicalObject):
 
         self.keys = self.get_keys(use_arrow_keys)
 
-        self.change_form('default')
+        self.set_form('default')
 
 
-    def change_form(self, form='default'):
+    def set_form(self, form='default'):
         """Toggles between different forms."""
-        if form == 'default':
-            self.speed = 0
-            self.top_speed = 500
-            self.speed_multiplier = 1.01
-            self.speed_increment = 30
-            self.stop_multiplier = 1.05
-            self.bounce_multiplier = 0.3
-            self.fall = {
-                'speed': 80,
-                'multiplier': 1.2,
-                'max_speed': 200
-            }
+        set_form(self, form)
+
 
     def get_keys(self, use_arrow_keys):
         if use_arrow_keys:
             return {
-                'up': key.UP,
-                'down': key.DOWN,
-                'left': key.LEFT,
-                'right': key.RIGHT
+                'up': key.UP,'down': key.DOWN,'left': key.LEFT,'right': key.RIGHT,
+                'cat': key.M,'snake': key.SEMICOLON,'elephant': key.COLON, 'bird': key.MINUS
             }
         return {
-            'up': key.W,
-            'down': key.S,
-            'left': key.A,
-            'right': key.D
+            'up': key.W, 'down': key.S, 'left': key.A, 'right': key.D,
+            'cat': key.NUM_1, 'snake': key.NUM_2, 'elephant': key.NUM_3, 'bird': key.NUM_4
         }
 
     def get_prioritized_obj(self, objs):
@@ -79,16 +66,16 @@ class Player(PhysicalObject):
         return result
 
     def update(self, dt, game_map):
-
+        keys = self.keys
         # Sideways motion:
-        if self.key_handler[self.keys['left']] or self.key_handler[self.keys['right']]:
-            if self.key_handler[self.keys['right']] and self.key_handler[self.keys['left']]:
+        if self.key_handler[keys['left']] or self.key_handler[keys['right']]:
+            if self.key_handler[keys['right']] and self.key_handler[keys['left']]:
                 self.vel_x = self.vel_x / self.stop_multiplier
-            elif self.key_handler[self.keys['right']]:
+            elif self.key_handler[keys['right']]:
                 self.vel_x = min(
                     self.top_speed, self.vel_x + self.speed_increment)
 
-            elif self.key_handler[self.keys['left']]:
+            elif self.key_handler[keys['left']]:
                 self.vel_x = max(
                     -self.top_speed, self.vel_x - self.speed_increment)
         else:
@@ -217,8 +204,7 @@ class Player(PhysicalObject):
 
 
     def hit_trap(self, collider=None):
-        print "hit trap", type(collider)
-        audio.death('bird')
+        # audio.death('bird')
         self.is_dead = True
         self.batch = None
 

@@ -7,6 +7,7 @@ Draws heavily from http://steveasleep.com/pyglettutorial.html
 import pyglet
 from pyglet.window import key
 import maps
+from utils import distance
 import sys
 
 game_window = pyglet.window.Window(800, 600)
@@ -58,6 +59,7 @@ def on_draw():
     game_window.clear()
     main_batch.draw()
 
+can_collide = True
 
 def update(dt):
     """
@@ -65,10 +67,24 @@ def update(dt):
     """
     game_map.scroll_map(dt)
 
+
     if not game_map.player1.is_dead:
         game_map.player1.update(dt, game_map)
     if not game_map.player2.is_dead:
         game_map.player2.update(dt, game_map)
+
+    global can_collide # TODO check if could do without
+    if distance(game_map.player1.position, game_map.player2.position) < 50:
+        if can_collide:
+            if abs(game_map.player1.vel_x) > abs(game_map.player2.vel_x):
+                game_map.player2.vel_x = game_map.player1.vel_x
+                game_map.player1.vel_x *= -1
+            else:
+                game_map.player1.vel_x = game_map.player2.vel_x
+                game_map.player2.vel_x *= -1
+            can_collide = False
+    else:
+        can_collide = True
 
 
 def main():

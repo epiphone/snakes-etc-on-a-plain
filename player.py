@@ -12,21 +12,21 @@ import audio
 DEFAULT = 'default'
 BIRD = 'bird'
 ELEPHANT = 'elephant'
-SNAKE = 'snake'
 CAT = 'cat'
 
 
 class Player(PhysicalObject):
     """PhysicalObject with input capabilities."""
 
-    def __init__(self, use_arrow_keys=False, *args, **kwargs):
-        super(Player, self).__init__(img=resources.anim_default, *args, **kwargs)
+    def __init__(self, use_arrow_keys=False, pushes_other_player=False, *args, **kwargs):
+        super(Player, self).__init__(img=resources.anim_snake, *args, **kwargs)
 
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self, self.key_handler]
         self.vel_x, self.vel_y = 0.0, -1.0
         self.form = DEFAULT
         self.is_dead = False
+        self.pushes_other_player = pushes_other_player
         self.is_falling = False
         self.is_jumping = False
         self.jump_clicked = False
@@ -126,21 +126,19 @@ class Player(PhysicalObject):
             else:
                 self.vel_y = max(-300, self.vel_y - 20)
 
-
-
         else:
             if self.jump_clicked and not self.key_handler[keys['up']]:
                 self.jump_clicked = False
 
             if self.is_jumping:
-                self.vel_y -= self.jump_speed*dt
+                self.vel_y -= self.jump_fall_speed*dt
                 if self.vel_y < 0:
                     self.is_jumping = False
             else:
                 if not self.is_falling and not self.jump_clicked and self.key_handler[self.keys['up']]:
                     self.is_jumping = True
                     self.jump_clicked = True
-                    self.vel_y = 1200
+                    self.vel_y = self.jump_speed
 
 
         tile_size = game_map.tile_size

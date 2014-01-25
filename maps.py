@@ -83,12 +83,12 @@ class Map(object):
                     row.append(None)
                 elif obj == Player:
                     if player1 is None:
-                        player1 = Player(x=left_top_x, y=left_top_y -self.tile_size + 1,
-                            batch=self.batch)
+                        player1 = Player(x=left_top_x, y=left_top_y-self.tile_size + 1,
+                            batch=self.batch, pushes_other_player=True)
                         row.append(player1)
                     else:
-                        player2 = Player(x=left_top_x, y=left_top_y -self.tile_size + 1,
-                            use_arrow_keys=True, batch=self.batch)
+                        player2 = Player(x=left_top_x, y=left_top_y-self.tile_size + 1,
+                            use_arrow_keys=True, pushes_other_player=False, batch=self.batch)
                         row.append(player2)
                 else:
                     row.append(obj(x=left_top_x, y=left_top_y - self.tile_size + 1,
@@ -97,6 +97,7 @@ class Map(object):
 
         assert player1 is not None and player2 is not None and type(player1) == Player
         return rows, player1, player2
+
 
     def get_columns(self):
         """

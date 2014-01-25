@@ -1,0 +1,10 @@
+
+                                 xxxxxx     vvv
+            x                         x     vvv
+            x                         x     vvv
+x           x             xxhhhhhhhhhhx                                    h
+x 1 2       x             xx                                               h       x
+xxxxxxx  xxxx         xx  xxhhhhhhhhhhh               xx                   h      xxv
+x     hhhh       xx   xx  xx                vvv       xx                   h     xxxxx
+x                xx   xx  xx                vvv       xx                   h    xxxxxxv
+xxxxvvxxxxxvxxxxxxx   xx  xx                          xxxxxxx  xxx   xxx   xxxxxxxxxxxxxxx   xxxx     xxxxx

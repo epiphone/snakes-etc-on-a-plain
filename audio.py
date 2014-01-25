@@ -22,12 +22,10 @@ def death(form):
     Plays the death-sound for given form.
     """
     if form == 'default':
-        # fx_def_death.play() etc
+        fx_snake_death.play()
         pass
     elif form == 'bird':
         fx_bird_death.play()
-    elif form == 'snake':
-        fx_snake_death.play()
         pass
     elif form == 'elephant':
         fx_elephant_death.play()
@@ -44,13 +42,11 @@ def spawn(form):
     Plays the spawn-sound for given form.
     """
     if form == 'default':
-        # fx_def_death.play() etc
+        fx_snake_spawn.play()
         pass
     elif form == 'bird':
         fx_bird_spawn.play()
-    elif form == 'snake':
-        fx_snake_spawn.play()
-        pass
+
     elif form == 'elephant':
         fx_elephant_spawn.play()
         pass
@@ -61,5 +57,5 @@ def spawn(form):
 def elefanttimarssi():
     elefanttimarssi.play()
 
-def theme()
+def theme():
     theme.play()

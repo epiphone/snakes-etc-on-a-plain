@@ -1,7 +1,7 @@
 x
 x
-x
-x                                     x
-x                 x              xx   x
-x      x       x  x                 xxx         
-xxxxxxxxxxxxxxxxxxxxxxx  xxxx   xxxxxxxxxxxxxxxx  xxx  xxxxxxx
+x                                         x
+x                        h         xx     x
+x                 x      h          h     x
+x 1 2   xx       xx      h          h   xxx         
+xxxxxxxxxxxx  xxxxxxxxx  xxxx   xxxxxxxxxxxxxxxx  xxx      xxxx

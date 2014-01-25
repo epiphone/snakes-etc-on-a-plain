@@ -8,15 +8,15 @@ from map_objs import Tile, Trap
 
 map1 = """
 
-
-xx p   x
-xxxxx    xx
-     xxx
-xxxxxxxxxx"""
+         xxxxxxx
+x p    xx      x      xx
+xxxxx      xx  x   xxx
+     xxx   xx        x
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"""
 
 class Map(object):
     """A map object with position and drawing."""
-    def __init__(self, map_str, batch, scroll_speed=10, tile_size=64):
+    def __init__(self, map_str, batch, scroll_speed=100, tile_size=64):
         self.batch = batch
         self.scroll_speed = scroll_speed
         self.scroll_x = 0

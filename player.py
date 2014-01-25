@@ -35,6 +35,19 @@ class Player(PhysicalObject):
         self.bounce_multiplier = 0.3
 
 
+    def get_prioritized_obj(self, objs):
+        """
+        Returns from a list of objects the object that will be
+        handled first. ATM Traps are handled before everything else.
+        """
+        result = None
+        for obj in objs:
+            if type(obj) == Trap:
+                return obj
+            if type(obj) == Tile and result is None:
+                result = obj
+        return result
+
     def update(self, dt, game_map):
 
         # Sideways motion:
@@ -88,52 +101,60 @@ class Player(PhysicalObject):
                 break # row top is lower than player bottom
             clipped_row_indexes.append(row_index)
 
-        if self.vel_y > 0:
-            self.y += self.vel_y*dt
-        else:
-            bottom_collides_with = None
-            for row_index, row in enumerate(game_map.rows):
-                row_top_y = (len(game_map.rows) - row_index) * tile_size
-                if row_top_y < self.y:
-                    bottom_colliders = [row[i] for i in clipped_col_indexes]
-                    for obj in bottom_colliders:
-                        if type(obj) == Tile and bottom_collides_with is None:
-                            bottom_collides_with = obj
-                        elif type(obj) == Trap:
-                            bottom_collides_with = obj
-                    if bottom_collides_with is not None:
+        if self.vel_y > 0: # Moving up
+            top_collider = None
+            for row_index, row in enumerate(game_map.rows[::-1]):
+                row_bottom_y = row_index * tile_size + 1
+                if row_bottom_y >= self.y + self.height:
+                    top_colliders = [row[i] for i in clipped_col_indexes]
+                    top_collider = self.get_prioritized_obj(top_colliders)
+                    if top_collider is not None:
                         break
 
-            if bottom_collides_with is None:
-                self.y += self.vel_y * dt
+            if top_collider is None:
+                self.y += self.vel_y*dt
             else:
-                if self.y + self.vel_y*dt <= bottom_collides_with.y + tile_size:
-                    if type(bottom_collides_with) == Tile:
-                        self.y = bottom_collides_with.y + tile_size
+                if self.y + self.height + self.vel_y*dt >= top_collider.y:
+                    if type(top_collider) == Tile:
+                        self.y = top_collider.y - self.height - 1
+                    elif type(top_collider) == Trap:
+                        print "top hit trap!"
+                else:
+                    self.y += self.vel_y*dt
+
+        else: # Moving down
+            bottom_collider = None
+            for row_index, row in enumerate(game_map.rows):
+                row_top_y = (len(game_map.rows) - row_index) * tile_size - 1
+                if row_top_y <= self.y:
+                    bottom_colliders = [row[i] for i in clipped_col_indexes]
+                    bottom_collider = self.get_prioritized_obj(bottom_colliders)
+                    if bottom_collider is not None:
+                        break
+
+            if bottom_collider is None:
+                self.y += self.vel_y*dt
+            else:
+                if self.y + self.vel_y*dt <= bottom_collider.y + tile_size:
+                    if type(bottom_collider) == Tile:
+                        self.y = bottom_collider.y + tile_size
                         self.set_falling(False)
-                    elif type(bottom_collides_with) == Trap:
+                    elif type(bottom_collider) == Trap:
                         print "hit a trap!"
                 else:
                     self.y += self.vel_y * dt
                     self.set_falling(True)
 
         player_real_x_speed = self.vel_x*dt + game_map.scroll_speed*dt
-
         if player_real_x_speed > 0 and right_coll_col is not None: # Moving right
-            right_collider = None
             right_colliders = [game_map.rows[row_index][right_coll_col]
                                for row_index in clipped_row_indexes]
-            for obj in right_colliders:
-                if type(obj) == Trap:
-                    right_collider = obj
-                    break
-                if type(obj) == Tile and right_collider is None:
-                    right_collider = obj
+            right_collider = self.get_prioritized_obj(right_colliders)
 
             if right_collider is None:
                 self.x += self.vel_x*dt
             else:
-                future_x = self.x + self.width + self.vel_x*dt # - game_map.scroll_speed*dt
+                future_x = self.x + self.width + self.vel_x*dt
                 if future_x >= right_collider.x - game_map.scroll_speed*dt:
                     if type(right_collider) == Tile:
                         self.x = right_collider.x - self.width - game_map.scroll_speed*dt-1
@@ -146,13 +167,7 @@ class Player(PhysicalObject):
         elif player_real_x_speed < 0 and left_coll_col is not None: # Moving left
             left_colliders = [game_map.rows[row_index][left_coll_col]
                               for row_index in clipped_row_indexes]
-            left_collider = None
-            for obj in left_colliders:
-                if type(obj) == Tile and left_collider is None:
-                    left_collider = obj
-                elif type(obj) == Trap:
-                    left_collider = obj
-                    break
+            left_collider = self.get_prioritized_obj(left_colliders)
 
             if left_collider is None:
                 self.x += self.vel_x*dt
@@ -169,6 +184,7 @@ class Player(PhysicalObject):
         else:
             self.x += self.vel_x*dt
 
+        print self.y
 
 
     def set_falling(self, is_falling):

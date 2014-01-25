@@ -13,8 +13,7 @@ map1 = """
 p      v
 xxxx   xxx
     xxx
-
-"""
+          """
 
 class Map(object):
     """A map object with position and drawing."""
@@ -71,7 +70,7 @@ class Map(object):
         lines = [part for part in map_str.split('\n')[1:]]
         lines_len = len(lines)
         max_line_len = len(max(lines, key=len))
-        lines = [line + ' '*(max_line_len - len(part)) for line in lines]
+        lines = [line + ' '*(max_line_len - len(line)) for line in lines]
 
         rows = []
         for row_index, line in enumerate(lines):
@@ -84,7 +83,7 @@ class Map(object):
                 if obj is None:
                     row.append(None)
                 else:
-                    row.append(obj(x=left_top_x, y=left_top_y, batch=self.batch))
+                    row.append(obj(x=left_top_x, y=left_top_y - self.tile_size + 1, batch=self.batch))
             rows.append(row)
 
         return rows

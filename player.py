@@ -16,7 +16,7 @@ class Player(PhysicalObject):
 
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self, self.key_handler]
-        self.vel_x, vel_y = 0.0, 0.0
+        self.vel_x, self.vel_y = 0.0, -50.0
         self.is_falling = False
         self.fall = {
             'speed': 100,
@@ -36,11 +36,12 @@ class Player(PhysicalObject):
             if self.key_handler[key.D] and self.key_handler[key.A]:
                 self.vel_x = self.vel_x / self.stop_multiplier
             elif self.key_handler[key.D]:
-                self.vel_x = min(self.top_speed, self.vel_x + self.speed_increment)
-
+                self.vel_x = min(
+                    self.top_speed, self.vel_x + self.speed_increment)
 
             elif self.key_handler[key.A]:
-                self.vel_x = max(-self.top_speed, self.vel_x - self.speed_increment)
+                self.vel_x = max(
+                    -self.top_speed, self.vel_x - self.speed_increment)
         else:
             self.vel_x = self.vel_x / self.stop_multiplier
 
@@ -53,24 +54,27 @@ class Player(PhysicalObject):
         for col_index, col in enumerate(game_map.get_columns()):
             if col_index * tile_size - game_map.scroll_x > self.x + self.width:
                 break
+                # TODO this index is useful for detecting right side collisions
             if col_index * tile_size + tile_size - game_map.scroll_x < self.x:
+                # TODO this index is useful for detecting left side collisions
                 continue
             clipped_col_indexes.append(col_index)
 
+        assert len(game_map.rows) == 6
         floor_y = None
         for row_index, row in enumerate(game_map.rows):
-            row_top_y = (len(game_map.rows) - row_index - 1) * tile_size
+            row_top_y = (len(game_map.rows) - row_index) * tile_size
             if row_top_y < self.y:
                 if any(type(row[col_index]) == Tile for col_index in clipped_col_indexes):
                     floor_y = row_top_y
                     break
 
-        print clipped_col_indexes, floor_y
+        print clipped_col_indexes, floor_y, self.y
+        # print self.vel_y, self.y, self.y + self.vel_y*dt, floor_y, "dt=", dt
         if floor_y and self.y + self.vel_y*dt <= floor_y:
-            self.vel_y = 0
             self.y = floor_y + 1
         else:
-            self.vel_y = -20
+            # self.vel_y = -20
             self.y += self.vel_y * dt
         self.x += self.vel_x * dt
 
@@ -124,12 +128,13 @@ class Player(PhysicalObject):
 
 
 
-    def set_falling(self, is_falling):
-        if is_falling:
-            self.vel_y = -100
-        else:
-            self.vel_y = 0
-        # if self.is_falling:
+    # def set_falling(self, is_falling):
+
+    #     if is_falling:
+    #         self.vel_y = -100
+    #     else:
+    #         self.vel_y = 0
+    #     # if self.is_falling:
         #     if is_falling:
         #         self.vel_y *= self.fall['multiplier']
         #     else:

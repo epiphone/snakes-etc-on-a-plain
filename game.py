@@ -46,34 +46,6 @@ def update(dt):
 
     player = game_objects[0]  # TODO
     player.update(dt, game_map)
-    # collided_x = False
-    # collided_y = False
-    # is_falling = True
-
-
-
-    # for obj in game_map.map_objs:
-    #     if type(obj) == Player:
-    #         continue
-    #     if not collided_y:
-    #         if player.bottom_collides(obj):
-    #             is_falling = False
-    #             collided_y = True
-    #             # player.prev_y = obj.y + obj.height + 1
-    #             player.y = obj.y + obj.height + 1
-    #         elif player.top_collides(obj):
-    #             collided_y = True
-
-    #     # if not collided_x:
-    #     #     if player.right_collides(obj):
-    #     #         collided_x = True
-    #     #     elif player.left_collides(obj):
-    #     #         collided_x = True
-
-    #     # if collided_y and collided_x:
-    #     #     break
-
-    # player.set_falling(is_falling)
 
 
 def main():

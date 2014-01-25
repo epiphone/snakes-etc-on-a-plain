@@ -23,6 +23,8 @@ imgs_bird = [pyglet.resource.image('Bird%d.png' % i) for i in range(2)]
 anim_bird = pyglet.image.Animation.from_image_sequence(imgs_bird, 0.05, True)
 
 
+
+img_swoosh = pyglet.resource.image('MudTop.png')
 img_tile = pyglet.resource.image('tile.png')
 img_trap = pyglet.resource.image('trap.png')
 img_crushable = pyglet.resource.image('Mud.png')

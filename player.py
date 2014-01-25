@@ -24,13 +24,13 @@ class Player(PhysicalObject):
         self.is_falling = False
         self.is_jumping = False
         self.jump_clicked = False
-
         self.set_keys(use_arrow_keys)
         self.set_form('default')
 
 
     def set_form(self, form='default'):
         """Toggles between different forms."""
+        self.vel_y = -10
         set_form(self, form)
 
 
@@ -61,6 +61,7 @@ class Player(PhysicalObject):
                 result = obj
         return result
 
+
     def update(self, dt, game_map):
         keys = self.keys
         # Sideways motion:
@@ -72,24 +73,34 @@ class Player(PhysicalObject):
                     self.top_speed, self.vel_x + self.speed_increment)
 
             elif self.key_handler[keys['left']]:
-                self.vel_x = max(
-                    -self.top_speed, self.vel_x - self.speed_increment)
+                if self.form == 'elephant': # elephant can't go left
+                    self.vel_x = max(0, self.vel_x-self.speed_increment)
+                else:
+                    self.vel_x = max(-self.top_speed, self.vel_x-self.speed_increment)
         else:
             self.vel_x = self.vel_x / self.stop_multiplier
 
+        if self.form == 'bird':
+            if self.key_handler[keys['up']]:
+                self.vel_y = max(100, self.vel_y + 10)
+            else:
+                self.vel_y = max(-300, self.vel_y - 20)
 
-        if self.jump_clicked and not self.key_handler[key.W]:
-            self.jump_clicked = False
 
-        if self.is_jumping:
-            self.vel_y -= self.jump_speed*dt
-            if self.vel_y < 0:
-                self.is_jumping = False
+
         else:
-            if not self.is_falling and not self.jump_clicked and self.key_handler[self.keys['up']]:
-                self.is_jumping = True
-                self.jump_clicked = True
-                self.vel_y = 1200
+            if self.jump_clicked and not self.key_handler[keys['up']]:
+                self.jump_clicked = False
+
+            if self.is_jumping:
+                self.vel_y -= self.jump_speed*dt
+                if self.vel_y < 0:
+                    self.is_jumping = False
+            else:
+                if not self.is_falling and not self.jump_clicked and self.key_handler[self.keys['up']]:
+                    self.is_jumping = True
+                    self.jump_clicked = True
+                    self.vel_y = 1200
 
 
         tile_size = game_map.tile_size

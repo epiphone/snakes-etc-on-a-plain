@@ -70,3 +70,4 @@ def set_form(player, form):
             'multiplier': 1.2,
             'max_speed': 200
         }
+

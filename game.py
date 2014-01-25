@@ -50,7 +50,6 @@ def on_key_press(symbol, modifiers):
         game_map.player1.set_form("bird")
 
 
-
 @game_window.event
 def on_draw():
     """

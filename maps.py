@@ -8,11 +8,14 @@ from map_objs import Tile, Trap
 
 map1 = """
 
-         xxxxxxx
-x p    xx      x      xx
+           v   v
+       2 xxxxxxx
+x      xx      x      xx
+x 1
 xxxxx      xx  x   xxx
      xxx   xx        x
 xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"""
+
 
 class Map(object):
     """A map object with position and drawing."""
@@ -20,12 +23,12 @@ class Map(object):
         self.batch = batch
         self.scroll_speed = scroll_speed
         self.scroll_x = 0
-
         self.tile_size = tile_size
-        self.rows = self.parse_map(map_str)
+        self.rows, self.player1, self.player2 = self.parse_map(map_str)
         self.columns = self.get_columns()
         self.height = len(self.rows)*self.tile_size
         self.map_objs = self.get_map_objects()
+
 
     def scroll_map(self, dt):
         """
@@ -34,18 +37,9 @@ class Map(object):
         self.scroll_x += self.scroll_speed * dt
         for row in self.rows:
             for obj in row:
-                if obj is not None and type(obj) != Player:
+                if obj is not None: #and type(obj) != Player:
                     obj.x -= self.scroll_speed * dt
-        # for obj in self.map_objs:
-        #     if type(obj) != Player:
-        #         obj.x -= scroll_x
-        # for row in self.rows:
-        #     for col_index, obj in enumerate(row):
-        #         if obj is None or type(obj) == Player:
-        #             continue
 
-        #         left_top_x = self.tile_size * col_index - self.scroll_x
-        #         obj.x = left_top_x
 
     def draw(self):
         """
@@ -62,12 +56,14 @@ class Map(object):
         Parses map string into a matrix of map objects.
         """
         map_obj_mapping = {
-            'p': Player,
+            '1': Player,
+            '2': Player,
             'x': Tile,
             'v': Trap,
             ' ': None
         }
 
+        player1, player2 = None, None
         lines = [part for part in map_str.split('\n')[1:]]
         lines_len = len(lines)
         max_line_len = len(max(lines, key=len))
@@ -83,11 +79,19 @@ class Map(object):
                 obj = map_obj_mapping[symbol]
                 if obj is None:
                     row.append(None)
+                elif obj == Player:
+                    if player1 is None:
+                        player1 = Player(x=left_top_x, y=left_top_y -self.tile_size + 1, batch=self.batch)
+                        row.append(player1)
+                    else:
+                        player2 = Player(x=left_top_x, y=left_top_y -self.tile_size + 1, use_arrow_keys=True, batch=self.batch)
+                        row.append(player2)
                 else:
                     row.append(obj(x=left_top_x, y=left_top_y - self.tile_size + 1, batch=self.batch))
             rows.append(row)
 
-        return rows
+        assert player1 is not None and player2 is not None and type(player1) == Player
+        return rows, player1, player2
 
     def get_columns(self):
         """
@@ -111,12 +115,3 @@ class Map(object):
                 if obj is not None:
                     map_objs.append(obj)
         return map_objs
-
-
-
-
-
-
-
-if __name__ == '__main__':
-    pass

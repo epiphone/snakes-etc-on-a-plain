@@ -6,12 +6,11 @@ Draws heavily from http://steveasleep.com/pyglettutorial.html
 
 import pyglet
 import maps
-from player import Player
 
 game_window = pyglet.window.Window(800, 600)
 main_batch = pyglet.graphics.Batch()
 game_objects = []
-scroll_speed = 10
+scroll_speed = 200
 tile_size = 64
 game_map = None
 
@@ -22,12 +21,8 @@ def init():
     """
     global game_map
     game_map = maps.Map(maps.map1, main_batch, scroll_speed)
-    for map_obj in game_map.map_objs:
-        if type(map_obj) == Player:
-            game_window.push_handlers(map_obj.key_handler)
-            game_objects.append(map_obj)
-
-
+    game_window.push_handlers(game_map.player1.key_handler)
+    game_window.push_handlers(game_map.player2.key_handler)
 
 @game_window.event
 def on_draw():
@@ -44,8 +39,10 @@ def update(dt):
     """
     game_map.scroll_map(dt)
 
-    player = game_objects[0]  # TODO
-    player.update(dt, game_map)
+    if not game_map.player1.is_dead:
+        game_map.player1.update(dt, game_map)
+    if not game_map.player2.is_dead:
+        game_map.player2.update(dt, game_map)
 
 
 def main():

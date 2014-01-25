@@ -21,7 +21,7 @@ def init():
     Initializes the game.
     """
     global game_map
-    game_map = maps.Map(maps.map1, main_batch)
+    game_map = maps.Map(maps.map1, main_batch, scroll_speed)
     for map_obj in game_map.map_objs:
         if type(map_obj) == Player:
             game_window.push_handlers(map_obj.key_handler)
@@ -42,7 +42,7 @@ def update(dt):
     """
     Updates the game world by given timestep.
     """
-    game_map.scroll_map(dt * scroll_speed)
+    game_map.scroll_map(dt)
 
     player = game_objects[0]  # TODO
     player.update(dt, game_map)

@@ -15,7 +15,6 @@ class PhysicalObject(pyglet.sprite.Sprite):
         self.vel_x, self.vel_y = 0.0, 0.0
         self.event_handlers = []
 
-
     def update(self, dt):
         """
         Advances PhysicalObject by given timestep.

@@ -2,7 +2,6 @@
 Everything map-related.
 """
 
-from physicalobject import PhysicalObject
 from player import Player
 from map_objs import Tile, Trap
 
@@ -10,31 +9,33 @@ from map_objs import Tile, Trap
 map1 = """
 
 
-p      xx
-xxxx
-    xxxv
+xx p   x
+xxxxx    xx
+     xxx
 xxxxxxxxxx"""
 
 class Map(object):
     """A map object with position and drawing."""
-    def __init__(self, map_str, batch, tile_size=64):
+    def __init__(self, map_str, batch, scroll_speed=10, tile_size=64):
         self.batch = batch
+        self.scroll_speed = scroll_speed
+        self.scroll_x = 0
+
         self.tile_size = tile_size
         self.rows = self.parse_map(map_str)
         self.columns = self.get_columns()
         self.height = len(self.rows)*self.tile_size
         self.map_objs = self.get_map_objects()
-        self.scroll_x = 0
 
-    def scroll_map(self, scroll_x):
+    def scroll_map(self, dt):
         """
         Updates map objects x coordinate - skips Player objects.
         """
-        self.scroll_x += scroll_x
+        self.scroll_x += self.scroll_speed * dt
         for row in self.rows:
             for obj in row:
                 if obj is not None and type(obj) != Player:
-                    obj.x -= scroll_x
+                    obj.x -= self.scroll_speed * dt
         # for obj in self.map_objs:
         #     if type(obj) != Player:
         #         obj.x -= scroll_x

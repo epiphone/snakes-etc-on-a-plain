@@ -2,8 +2,9 @@
 Tiles, obstacles etc.
 """
 
-from physicalobject import PhysicalObject
 import resources
+from physicalobject import PhysicalObject
+
 
 class Tile(PhysicalObject):
     """

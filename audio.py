@@ -4,8 +4,8 @@ Audio stuff.
 
 import pyglet
 
-fx_bird_death = pyglet.media.load("resources/Birdy death.wav", streaming=False)
-fx_cat_death = pyglet.media.load("resources/Cat death.wav", streaming=False)
+fx_bird_death = pyglet.media.load("resources/audio/old/Birdy death.wav", streaming=False)
+fx_cat_death = pyglet.media.load("resources/audio/old/Cat death.wav", streaming=False)
 # fx_snake_death = ...
 
 

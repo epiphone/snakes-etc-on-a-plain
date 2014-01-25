@@ -30,6 +30,8 @@ class Player(PhysicalObject):
         self.is_falling = False
         self.is_jumping = False
         self.jump_clicked = False
+        self.prev_key = None  # for elephant stomping
+
         self.set_keys(use_arrow_keys)
         self.set_form(DEFAULT)
 
@@ -67,27 +69,59 @@ class Player(PhysicalObject):
                 result = obj
         return result
 
+    def key(self, key_role):
+        return self.key_handler[self.keys[key_role]]
 
-    def update(self, dt, game_map):
-        keys = self.keys
-        # Sideways motion:
-        if self.key_handler[keys['left']] or self.key_handler[keys['right']]:
-            if self.key_handler[keys['right']] and self.key_handler[keys['left']]:
-                self.vel_x = self.vel_x / self.stop_multiplier
-            elif self.key_handler[keys['right']]:
-                self.vel_x = min(
-                    self.top_speed, self.vel_x + self.speed_increment)
-
-            elif self.key_handler[keys['left']]:
-                if self.form == ELEPHANT: # elephant can't go left
-                    self.vel_x = max(0, self.vel_x-self.speed_increment)
-                else:
-                    self.vel_x = max(-self.top_speed, self.vel_x-self.speed_increment)
+    def stomp(self, new_prev_key=None, increase_speed=False):
+        """Helper for elephant stomping."""
+        self.prev_key = new_prev_key
+        if increase_speed:
+            self.vel_x = min(self.top_speed, self.vel_x + self.speed_increment)
         else:
             self.vel_x = self.vel_x / self.stop_multiplier
 
+    def update(self, dt, game_map):
+        keys = self.keys
+
+        # Elephant moves by repeating left and right keys:
+        if self.form == ELEPHANT and (self.key('left') or self.key('right')):
+            if self.key('left') and self.key('right'):
+                self.stomp(None, False)
+            elif self.prev_key is None:
+                self.stomp(self.keys['left'] if self.key('left') else self.keys['right'], True)
+            elif self.prev_key == self.keys['left']:
+                if self.key('right'):
+                    self.stomp(self.keys['right'], True)
+                else:
+                    self.stomp(self.keys['left'], False)
+            elif self.prev_key == self.keys['right']:
+                if self.key('left'):
+                    self.stomp(self.keys['left'], True)
+                else:
+                    self.stomp(self.keys['right'], False)
+            else:
+                self.stomp(None, False)
+
+
+        else:
+            if self.key('left') or self.key('right'):
+                if self.key('right') and self.key('left'):
+                    self.vel_x = self.vel_x / self.stop_multiplier
+                elif self.key('right'):
+                    self.vel_x = min(
+                        self.top_speed, self.vel_x + self.speed_increment)
+
+                elif self.key('left'):
+                    # TODO remove
+                    if self.form == ELEPHANT: # elephant can't go left
+                        self.vel_x = max(0, self.vel_x-self.speed_increment)
+                    else:
+                        self.vel_x = max(-self.top_speed, self.vel_x-self.speed_increment)
+            else:
+                self.vel_x = self.vel_x / self.stop_multiplier
+
         if self.form == BIRD:
-            if self.key_handler[keys['up']]:
+            if self.key('up'):
                 self.vel_y = max(100, self.vel_y + 10)
             else:
                 self.vel_y = max(-300, self.vel_y - 20)

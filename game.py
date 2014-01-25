@@ -75,7 +75,8 @@ def main():
     """
     Initialize and run.
     """
-    if len(sys.argv) > 2:
+    print sys.argv
+    if len(sys.argv) == 2:
         init(open(sys.argv[-1]).read())
     else:
         init(maps.map1)

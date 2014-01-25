@@ -36,7 +36,7 @@ def set_form(player, form):
         player.image = resources.anim_elephant
         player.jump_speed = 5000
         player.top_speed = 500
-        player.speed_increment = 30
+        player.speed_increment = 15
         player.stop_multiplier = 1.05
         player.bounce_multiplier = 0.3
         player.fall = {

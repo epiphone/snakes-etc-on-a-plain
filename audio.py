@@ -4,6 +4,7 @@ Audio stuff.
 
 import pyglet
 
+<<<<<<< HEAD
 fx_bird_death = pyglet.media.load("resources/bird_death.wav", streaming=False)
 fx_cat_death = pyglet.media.load("resources/cat_death.wav", streaming=False)
 fx_elephant_death = pyglet.media.load("resources/elephant_death.wav", streaming=False)
@@ -14,6 +15,10 @@ fx_elephant_spawn = pyglet.media.load("resources/elephant_spawn.wav", streaming=
 fx_snake_spawn = pyglet.media.load("resources/snake_spawn.wav", streaming=False)
 elefanttimarssi = pyglet.media.load("resources/elefanttimarssi.wav", streaming=False)
 theme = pyglet.media.load("resources/elefanttimarssi.wav", streaming=False)
+=======
+fx_bird_death = pyglet.media.load("resources/audio/old/Birdy death.wav", streaming=False)
+fx_cat_death = pyglet.media.load("resources/audio/old/Cat death.wav", streaming=False)
+>>>>>>> 78866a3f2a944b454db637fcfa512b25fcee4c26
 # fx_snake_death = ...
 
 

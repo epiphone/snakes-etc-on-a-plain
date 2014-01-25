@@ -75,7 +75,6 @@ def main():
     """
     Initialize and run.
     """
-    print sys.argv
     if len(sys.argv) == 2:
         init(open(sys.argv[-1]).read())
     else:

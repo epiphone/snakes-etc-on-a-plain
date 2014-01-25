@@ -9,6 +9,12 @@ from map_objs import Tile, Trap, Crushable
 from form_attrs import set_form
 import audio
 
+DEFAULT = 'default'
+BIRD = 'bird'
+ELEPHANT = 'elephant'
+SNAKE = 'snake'
+CAT = 'cat'
+
 
 class Player(PhysicalObject):
     """PhysicalObject with input capabilities."""
@@ -19,16 +25,16 @@ class Player(PhysicalObject):
         self.key_handler = key.KeyStateHandler()
         self.event_handlers = [self, self.key_handler]
         self.vel_x, self.vel_y = 0.0, -1.0
-        self.form = 'default'
+        self.form = DEFAULT
         self.is_dead = False
         self.is_falling = False
         self.is_jumping = False
         self.jump_clicked = False
         self.set_keys(use_arrow_keys)
-        self.set_form('default')
+        self.set_form(DEFAULT)
 
 
-    def set_form(self, form='default'):
+    def set_form(self, form=DEFAULT):
         """Toggles between different forms."""
         self.vel_y = -10
         set_form(self, form)
@@ -73,14 +79,14 @@ class Player(PhysicalObject):
                     self.top_speed, self.vel_x + self.speed_increment)
 
             elif self.key_handler[keys['left']]:
-                if self.form == 'elephant': # elephant can't go left
+                if self.form == ELEPHANT: # elephant can't go left
                     self.vel_x = max(0, self.vel_x-self.speed_increment)
                 else:
                     self.vel_x = max(-self.top_speed, self.vel_x-self.speed_increment)
         else:
             self.vel_x = self.vel_x / self.stop_multiplier
 
-        if self.form == 'bird':
+        if self.form == BIRD:
             if self.key_handler[keys['up']]:
                 self.vel_y = max(100, self.vel_y + 10)
             else:
@@ -140,12 +146,14 @@ class Player(PhysicalObject):
             else:
                 if self.y + self.height + self.vel_y*dt >= top_collider.y:
                     coll_type = type(top_collider)
-                    if coll_type == Tile or (coll_type == Crushable and self.form != 'elephant'):
+                    if self.form == BIRD:
+                        self.die()
+                    elif coll_type == Tile or (coll_type == Crushable and self.form != ELEPHANT):
                         self.y = top_collider.y - self.height - 1
                     elif coll_type == Crushable:
                         self.crush(top_collider)
                     elif type(top_collider) == Trap:
-                        self.hit_trap(top_collider)
+                        self.die(top_collider)
                 else:
                     self.y += self.vel_y*dt
 
@@ -164,13 +172,13 @@ class Player(PhysicalObject):
             else:
                 if self.y + self.vel_y*dt < bottom_collider.y + tile_size:
                     coll_type = type(bottom_collider)
-                    if coll_type==Tile or (coll_type==Crushable and self.form != 'elephant'):
+                    if coll_type==Tile or (coll_type==Crushable and self.form != ELEPHANT):
                         self.y = bottom_collider.y + tile_size
                         self.set_falling(False)
                     elif coll_type == Crushable:
                         self.crush(bottom_collider)
                     elif coll_type == Trap:
-                        self.hit_trap(bottom_collider)
+                        self.die(bottom_collider)
                 else:
                     self.y += self.vel_y * dt
                     self.set_falling(True)
@@ -187,13 +195,15 @@ class Player(PhysicalObject):
                 future_x = self.x + self.width + self.vel_x*dt
                 if future_x >= right_collider.x:
                     coll_type = type(right_collider)
-                    if coll_type == Tile or (coll_type == Crushable and self.form != 'elephant'):
+                    if self.form == BIRD:
+                        self.die()
+                    elif coll_type == Tile or (coll_type == Crushable and self.form != ELEPHANT):
                         self.x = right_collider.x - self.width - 1
                         self.vel_x *= -self.bounce_multiplier
                     elif coll_type == Crushable:
                         self.crush(right_collider)
                     elif coll_type == Trap:
-                        self.hit_trap(right_collider)
+                        self.die(right_collider)
                 else:
                     self.x += self.vel_x*dt
 
@@ -208,20 +218,22 @@ class Player(PhysicalObject):
                 future_x = self.x + self.vel_x*dt
                 if future_x <= left_collider.x + left_collider.width + 2:
                     coll_type = type(left_collider)
-                    if coll_type == Tile or (coll_type==Crushable and self.form != 'elephant'):
+                    if self.form == BIRD:
+                        self.die()
+                    elif coll_type == Tile or (coll_type==Crushable and self.form != ELEPHANT):
                         self.x = left_collider.x + left_collider.width + 1
                         self.vel_x *= -self.bounce_multiplier
                     elif coll_type == Crushable:
                         self.crush(left_collider)
                     elif coll_type == Trap:
-                        self.hit_trap(left_collider)
+                        self.die(left_collider)
                 else:
                     self.x += self.vel_x*dt
         else:
             self.x += self.vel_x*dt
 
 
-    def hit_trap(self, collider=None):
+    def die(self, collider=None):
         # audio.death(self.form)
         self.is_dead = True
         self.batch = None

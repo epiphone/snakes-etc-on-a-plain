@@ -18,8 +18,6 @@ tile_size = 64
 game_map = None
 levels = []
 
-displaying_menu = False
-menu_batch = None
 
 def init_map(map_to_init=None):
     """
@@ -31,13 +29,6 @@ def init_map(map_to_init=None):
     game_map = maps.Map(map_to_init, main_batch, scroll_speed)
     game_window.push_handlers(game_map.player1.key_handler)
     game_window.push_handlers(game_map.player2.key_handler)
-
-
-def init_menu():
-    global menu_batch, displaying_menu
-    displaying_menu = True
-    menu_batch = pyglet.graphics.Batch()
-
 
 
 def load_maps(fname="map%d.txt"):
@@ -57,28 +48,22 @@ def on_key_press(symbol, modifiers):
     """
     Handle form changes.
     """
-    global displaying_menu
-    if displaying_menu:  # any key starts game while on menu
-        displaying_menu = False
-        init_map()
-
-    else:
-        if symbol == 49:
-            game_map.player2.set_form("default")
-        elif symbol == 50:
-            game_map.player2.set_form("cat")
-        elif symbol == 51:
-            game_map.player2.set_form("elephant")
-        elif symbol == 52:
-            game_map.player2.set_form("bird")
-        elif symbol == 109: # M
-            game_map.player1.set_form("default")
-        elif symbol == 44:  # ;
-            game_map.player1.set_form("cat")
-        elif symbol == 46:  # :
-            game_map.player1.set_form("elephant")
-        elif symbol == 45:  # -
-            game_map.player1.set_form("bird")
+    if symbol == 49:
+        game_map.player2.set_form("default")
+    elif symbol == 50:
+        game_map.player2.set_form("cat")
+    elif symbol == 51:
+        game_map.player2.set_form("elephant")
+    elif symbol == 52:
+        game_map.player2.set_form("bird")
+    elif symbol == 109: # M
+        game_map.player1.set_form("default")
+    elif symbol == 44:  # ;
+        game_map.player1.set_form("cat")
+    elif symbol == 46:  # :
+        game_map.player1.set_form("elephant")
+    elif symbol == 45:  # -
+        game_map.player1.set_form("bird")
 
 
 @game_window.event
@@ -87,10 +72,7 @@ def on_draw():
     Draws the game world.
     """
     game_window.clear()
-    if displaying_menu:
-        menu_batch.draw()
-    else:
-        main_batch.draw()
+    main_batch.draw()
 
 can_collide = True
 
@@ -99,12 +81,7 @@ def update(dt):
     """
     Updates the game world by given timestep.
     """
-    global can_collide, levels, displaying_menu
-
-    if displaying_menu:
-        # TODO
-        return
-
+    global can_collide, levels
     game_map.scroll_map(dt)
 
     if not game_map.player1.is_dead:
@@ -143,10 +120,7 @@ def update(dt):
             init_map()
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> d773fce6ed29fb8af55056768b704e799ffe02a8
 def main():
     """
     Initialize and run.
@@ -156,8 +130,7 @@ def main():
         init_map(input_map_str)
     else:
         load_maps()
-        init_menu()
-        # init_map()
+        init_map()
 
     audio.theme()
     pyglet.clock.schedule_interval(update, 1/60.0)

@@ -1,8 +1,9 @@
 
                v
-         xxxxxxx          xxv
-x      xx      x      xx
-x 1 2      hh                   xxxxxx
-xxxxx      xx  x   xxx          x
-     xxx   xx        x               x
-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+         XXXXXXX          XXv
+x      XX      x      XX
+x 1 2                           XXXXXX         G
+xXXXX       x  x   XXX     h     x             G
+     XXX   xx        x     h           X       G
+xxxxxxxxXXXxxXXXXXXXXxXXXXXXXXXXXXXXXXXXXXXXXXXG
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxG

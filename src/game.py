@@ -156,6 +156,8 @@ def update(dt):
             game_map
             init_map()
 
+    # if game_map.player1.form == 'elephant' and
+
 
 def main():
     """

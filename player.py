@@ -132,6 +132,7 @@ class Player(PhysicalObject):
 
             if self.is_jumping:
                 self.vel_y -= self.jump_fall_speed*dt
+                
                 if self.vel_y < 0:
                     self.is_jumping = False
             else:
@@ -139,7 +140,9 @@ class Player(PhysicalObject):
                     self.is_jumping = True
                     self.jump_clicked = True
                     self.vel_y = self.jump_speed
-
+                    if self.form == BIRD:
+                        if self.image != resources.anim_bird:
+                            self.image = resources.anim_bird
 
         tile_size = game_map.tile_size
         right_coll_col, left_coll_col = None, None
@@ -214,6 +217,10 @@ class Player(PhysicalObject):
                 else:
                     self.y += self.vel_y * dt
                     self.set_falling(True)
+                    #set bird fly anim
+                    if self.form == BIRD:
+                        if self.image != resources.anim_bird:
+                            self.image = resources.anim_bird
 
         player_real_x_speed = self.vel_x*dt + game_map.scroll_speed*dt
         if player_real_x_speed > 0 and right_coll_col is not None: # Moving right
@@ -284,16 +291,21 @@ class Player(PhysicalObject):
         crushable.disabled = True
         crushable.batch = None
 
-
     def set_falling(self, is_falling):
         if self.is_falling:
             if is_falling:
-                self.vel_y = min(self.fall['multiplier']*self.vel_y, self.fall['max_speed'])
+                self.vel_y = min(self.fall['multiplier']*self.vel_y,
+                                 self.fall['max_speed'])
+                # set bird glide anim
+                if self.form == BIRD:
+                    if self.image != resources.anim_bird_glide:
+                        self.image = resources.anim_bird_glide
             else:
                 self.vel_y = -self.fall['speed']
         else:
             if is_falling:
-                self.vel_y = min(self.fall['multiplier']*self.vel_y, self.fall['max_speed'])
+                self.vel_y = min(self.fall['multiplier']*self.vel_y,
+                                 self.fall['max_speed'])
             else:
                 self.vel_y = -self.fall['speed']
         self.is_falling = is_falling

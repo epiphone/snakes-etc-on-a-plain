@@ -4,6 +4,7 @@ Everything map-related.
 
 from player import Player
 from map_objs import Tile, Trap, Crushable
+import resources
 
 
 map1 = """
@@ -61,6 +62,7 @@ class Map(object):
             '1': Player,
             '2': Player,
             'x': Tile,
+            'X': Tile,
             'v': Trap,
             'h': Crushable,
             ' ': None
@@ -91,6 +93,12 @@ class Map(object):
                         player2 = Player(x=left_top_x, y=left_top_y-self.tile_size + 1,
                             use_arrow_keys=True, pushes_other_player=False, batch=self.batch)
                         row.append(player2)
+                elif obj == Tile:
+                    tile = obj(x=left_top_x, y=left_top_y - self.tile_size + 1,
+                            batch=self.batch)
+                    if symbol == 'X':
+                        tile.image = resources.img_toptile
+                    row.append(tile)
                 else:
                     row.append(obj(x=left_top_x, y=left_top_y - self.tile_size + 1,
                         batch=self.batch))

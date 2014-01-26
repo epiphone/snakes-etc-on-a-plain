@@ -1,4 +1,9 @@
 from distutils.core import setup
 import py2exe
 
-setup(console=['game.py'])
+setup(windows=['game.py'],
+      options={
+        "py2exe": {
+            "dist_dir": "../release/win32"
+        }
+})

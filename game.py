@@ -13,7 +13,7 @@ import sys
 game_window = pyglet.window.Window(800, 600)
 main_batch = None
 game_objects = []
-scroll_speed = 180
+scroll_speed = 50
 tile_size = 64
 game_map = None
 levels = []
@@ -49,17 +49,17 @@ def on_key_press(symbol, modifiers):
     Handle form changes.
     """
     if symbol == 49:
-        game_map.player2.set_form("cat")
+        game_map.player2.set_form("default")
     elif symbol == 50:
-        game_map.player2.set_form("snake")
+        game_map.player2.set_form("cat")
     elif symbol == 51:
         game_map.player2.set_form("elephant")
     elif symbol == 52:
         game_map.player2.set_form("bird")
     elif symbol == 109: # M
-        game_map.player1.set_form("cat")
+        game_map.player1.set_form("default")
     elif symbol == 44:  # ;
-        game_map.player1.set_form("snake")
+        game_map.player1.set_form("cat")
     elif symbol == 46:  # :
         game_map.player1.set_form("elephant")
     elif symbol == 45:  # -
@@ -101,8 +101,15 @@ def update(dt):
     else:
         can_collide = True
 
+    for player in [game_map.player1, game_map.player2]:
+        if player.x <= -30:
+            player.die()
+
+    if game_map.player1.is_dead and game_map.player2.is_dead:
+        init_map()
+
     goal_x = game_map.width - game_map.scroll_x
-    if game_map.player1.x >= goal_x and game_map.player2.x >= goal_x:
+    if (game_map.player1.x >= goal_x or game_map.player1.is_dead) and (game_map.player2.x >= goal_x or game_map.player2.is_dead):
         if len(levels) == 1:
             print "no more levels"
             sys.exit()
@@ -112,8 +119,6 @@ def update(dt):
             init_map()
 
 
-    if game_map.player1.is_dead and game_map.player1.is_dead:
-        init_map()
 
 
 

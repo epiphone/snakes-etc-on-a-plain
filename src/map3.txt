@@ -1,10 +1,10 @@
 
-                        vvvv
-                          vvvvv                                                    vvvvvvvvvvvvv
-               XXX   XXX    vvvvv                                          XhhhhvXXv           v
-               xxx   xxx     vvvvvv     v                                XXxhhhhvxxv           v
-            XXXxxx   xxxXXX  vvvvvv                                    XXxxxhhhhhxxv           v          G
-            xxx         xxx  vvvvvv                       vv         XXxxxxxvhhhhxxv    vvv               G
+                        VVV 
+                          VVV                                                      VVVVVVVVVVVVV
+               XXX   XXX    VV          vVVVVVVVVVV                        XhhhhvXXV           V
+               xxx   xxx     V          V                                XXxhhhhvxxV           V
+            XXXxxx   xxxXXX  V                                         XXxxxhhhhhxxV           V          G
+            xxx         xxx  VVVVVV                       vv         XXxxxxxvhhhhxxV    vvv               G
    1 2      xxx         xxx                       XXXXXXXXx     v  XXxxxxxxxvhhhh       vvv               G
 XXXXXXXXXXXXxxx         xxxXXXXXXXXX   XXX  XXXXXXxxxxxxxxxXXXXXxXXxxxxxxxxxxxxxxXXXXXXXXxxXXXXXXXXXXXXXXXG
 vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvG

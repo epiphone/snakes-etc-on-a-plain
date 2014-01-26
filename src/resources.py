@@ -21,7 +21,15 @@ anim_snake = pyglet.image.Animation.from_image_sequence(subimgs_snake,
 
 imgs_bird = [pyglet.resource.image('Bird%d.png' % i) for i in range(2)]
 anim_bird = pyglet.image.Animation.from_image_sequence(imgs_bird, 0.05, True)
-anim_bird_glide = imgs_bird[0]
+# TODO: use only image for perfectness
+anim_bird_glide = pyglet.image.Animation.from_image_sequence([imgs_bird[0],
+                                                              imgs_bird[0]],
+                                                             0.05,
+                                                             True)
+anim_bird_idle = pyglet.image.Animation.from_image_sequence([imgs_bird[1],
+                                                             imgs_bird[1]],
+                                                            0.05,
+                                                            True)
 
 imgs_splatter = [pyglet.resource.image('BloodExplosion%d.png' % i)
                  for i in range(2)]

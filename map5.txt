@@ -1,6 +1,6 @@
-x
-x
-x                      x                          x                  xx
+x                                                 x                  xx            h    h
+x                                                 x                  xx            h    h
+x                      x                          x                  xx            h    h
 x                      x                          x                  xx            h    h
 x                      x                          x                  xx            h    h             x
 x                      x       xxxxxxx            x                  xx            h    h            xx

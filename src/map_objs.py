@@ -23,7 +23,7 @@ class Trap(PhysicalObject):
 
     def __init__(self, *args, **kwargs):
         super(Trap, self).__init__(
-            img=resources.img_trap, *args, **kwargs)
+            img=resources.anim_spike, *args, **kwargs)
 
 
 class Crushable(PhysicalObject):
@@ -33,5 +33,27 @@ class Crushable(PhysicalObject):
     def __init__(self, *args, **kwargs):
         super(Crushable, self).__init__(
             img=resources.img_crushable, *args, **kwargs)
+
+    def destroy(self):
+        self.disabled = True
+        self.image = resources.anim_crumble
+
+    def on_animation_end(self):
+        """Hack to hide self after destroy anim has ended."""
+        if self.image == resources.anim_crumble:
+            self.batch = None
+            self.position = (-9999, -9999)
+
+
+class Goal(PhysicalObject):
+    """
+    Goal line indicator.
+    """
+    def __init__(self, *args, **kwargs):
+        super(Goal, self).__init__(
+            img=resources.img_goal, *args, **kwargs)
+        self.disabled = True
+
+
 
 

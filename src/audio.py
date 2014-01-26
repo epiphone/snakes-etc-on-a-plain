@@ -21,6 +21,7 @@ music_theme = pyglet.media.load("resources/audio/theme.mp3", streaming=False)
 
 music_player = pyglet.media.Player()
 music_player.eos_action = pyglet.media.Player.EOS_LOOP
+playing_theme = False
 
 def bump():
     """
@@ -63,8 +64,28 @@ def spawn(form):
         fx_cat_spawn.play()
 
 def elefanttimarssi():
-    music_elefanttimarssi.play()
+    # global playing_theme
+    # if playing_theme:
+    #     music_elefanttimarssi.play()
+    global playing_theme
+    if playing_theme:
+        playing_theme = False
+        play_music(music_elefanttimarssi)
 
 def theme():
-    music_player.queue(music_theme)
+    global playing_theme
+    if not playing_theme:
+        playing_theme = True
+        play_music(music_theme)
+    # if not playing_theme:
+    #     playing_theme = True
+    #     music_player.queue(music_theme)
+    #     music_player.play()
+
+def play_music(source):
+    global music_player
+    music_player.pause()
+    music_player = pyglet.media.Player()
+    music_player.eos_action = pyglet.media.Player.EOS_LOOP
+    music_player.queue(source)
     music_player.play()

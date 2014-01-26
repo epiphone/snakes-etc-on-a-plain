@@ -5,6 +5,7 @@ Draws heavily from http://steveasleep.com/pyglettutorial.html
 """
 
 import pyglet
+from pyglet.window import key
 import maps
 from utils import distance
 import sys
@@ -14,7 +15,7 @@ import resources
 game_window = pyglet.window.Window(800, 600)
 main_batch = None
 game_objects = []
-scroll_speed = 100
+scroll_speed =  130
 tile_size = 64
 game_map = None
 levels = []
@@ -34,6 +35,7 @@ def init_map(map_to_init=None):
     main_batch = pyglet.graphics.Batch()
     map_to_init = map_to_init or levels[0]
     game_map = maps.Map(map_to_init, main_batch, scroll_speed)
+    game_window.remove_handlers() #TODO clear memory
     game_window.push_handlers(game_map.player1.key_handler)
     game_window.push_handlers(game_map.player2.key_handler)
 
@@ -83,13 +85,13 @@ def on_key_press(symbol, modifiers):
             game_map.player2.set_form("elephant")
         elif symbol == 52:
             game_map.player2.set_form("bird")
-        elif symbol == 109: # M
+        elif symbol == key.U: # M
             game_map.player1.set_form("default")
-        elif symbol == 44:  # ;
+        elif symbol == key.I:  # ;
             game_map.player1.set_form("cat")
-        elif symbol == 46:  # :
+        elif symbol == key.O:  # :
             game_map.player1.set_form("elephant")
-        elif symbol == 45:  # -
+        elif symbol == key.P:  # -
             game_map.player1.set_form("bird")
 
 
@@ -156,7 +158,10 @@ def update(dt):
             game_map
             init_map()
 
-    # if game_map.player1.form == 'elephant' and
+    if game_map.player1.form == 'elephant' and game_map.player2.form == 'elephant':
+        audio.elefanttimarssi()
+    else:
+        audio.theme()
 
 
 def main():

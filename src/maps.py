@@ -102,6 +102,12 @@ class Map(object):
                     if symbol == 'X':
                         tile.image = resources.img_toptile
                     row.append(tile)
+                elif obj == Trap:
+                    trap = obj(x=left_top_x, y=left_top_y - self.tile_size + 1,
+                            batch=self.batch)
+                    if symbol == 'V':
+                        trap.image = resources.anim_spike_rev
+                    row.append(trap)
                 else:
                     row.append(obj(x=left_top_x, y=left_top_y - self.tile_size + 1,
                         batch=self.batch))

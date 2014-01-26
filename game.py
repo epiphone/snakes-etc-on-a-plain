@@ -11,21 +11,36 @@ from utils import distance
 import sys
 
 game_window = pyglet.window.Window(800, 600)
-main_batch = pyglet.graphics.Batch()
+main_batch = None
 game_objects = []
-scroll_speed = 10
+scroll_speed = 180
 tile_size = 64
 game_map = None
+levels = []
 
 
-def init(init_map):
+def init_map(map_to_init=None):
     """
     Initializes the game.
     """
-    global game_map
-    game_map = maps.Map(init_map, main_batch, scroll_speed)
+    global game_map, main_batch
+    main_batch = pyglet.graphics.Batch()
+    map_to_init = map_to_init or levels[0]
+    game_map = maps.Map(map_to_init, main_batch, scroll_speed)
     game_window.push_handlers(game_map.player1.key_handler)
     game_window.push_handlers(game_map.player2.key_handler)
+
+
+def load_maps(fname="map%d.txt"):
+    global levels
+    i = 0
+    while True:
+        try:
+            map_str = open(fname % i).read()
+            levels.append(map_str)
+            i += 1
+        except IOError:
+            break
 
 
 @game_window.event
@@ -61,19 +76,19 @@ def on_draw():
 
 can_collide = True
 
+
 def update(dt):
     """
     Updates the game world by given timestep.
     """
+    global can_collide, levels
     game_map.scroll_map(dt)
-
 
     if not game_map.player1.is_dead:
         game_map.player1.update(dt, game_map)
     if not game_map.player2.is_dead:
         game_map.player2.update(dt, game_map)
 
-    global can_collide # TODO check if could do without
     if distance(game_map.player1.position, game_map.player2.position) < 50:
         if can_collide:
             if abs(game_map.player1.vel_x) > abs(game_map.player2.vel_x):
@@ -86,15 +101,33 @@ def update(dt):
     else:
         can_collide = True
 
+    goal_x = game_map.width - game_map.scroll_x
+    if game_map.player1.x >= goal_x and game_map.player2.x >= goal_x:
+        if len(levels) == 1:
+            print "no more levels"
+            sys.exit()
+        else:
+            levels = levels[1:]
+            game_map
+            init_map()
+
+
+    if game_map.player1.is_dead and game_map.player1.is_dead:
+        init_map()
+
+
 
 def main():
     """
     Initialize and run.
     """
     if len(sys.argv) == 2:
-        init(open(sys.argv[-1]).read())
+        input_map_str = open(sys.argv[-1]).read()
+        init_map(input_map_str)
     else:
-        init(maps.map1)
+        load_maps()
+        init_map()
+
     pyglet.clock.schedule_interval(update, 1/60.0)
     pyglet.app.run()
 

@@ -28,6 +28,7 @@ class Map(object):
         self.rows, self.player1, self.player2 = self.parse_map(map_str)
         self.columns = self.get_columns()
         self.height = len(self.rows)*self.tile_size
+        self.width = len(self.rows[0])*self.tile_size
         self.map_objs = self.get_map_objects()
 
 

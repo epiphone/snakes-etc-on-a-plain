@@ -268,6 +268,8 @@ class Player(PhysicalObject):
     def die(self, collider=None):
         # audio.death(self.form)
         self.is_dead = True
+        self.x = -99999
+        self.y = -99999 # hack to prevent collisions
         self.batch = None
 
 

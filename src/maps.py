@@ -94,12 +94,11 @@ class Map(object):
                             use_arrow_keys=True, pushes_other_player=False, batch=self.batch)
                         row.append(player2)
                 elif obj == Tile:
-                    if symbol == 'x':
-                        row.append(obj(x=left_top_x, y=left_top_y - self.tile_size + 1,
-                            batch=self.batch))
-                    else: # use tile with grass top
-                        row.append(obj(x=left_top_x, y=left_top_y - self.tile_size + 1,
-                            batch=self.batch, img=resources.img_toptile))
+                    tile = obj(x=left_top_x, y=left_top_y - self.tile_size + 1,
+                            batch=self.batch)
+                    if symbol == 'X':
+                        tile.image = resources.img_toptile
+                    row.append(tile)
                 else:
                     row.append(obj(x=left_top_x, y=left_top_y - self.tile_size + 1,
                         batch=self.batch))

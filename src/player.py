@@ -287,7 +287,7 @@ class Player(PhysicalObject):
     def crush(self, crushable):
         if crushable.disabled:
             return
-        # audio.crushable(self.form)
+        audio.crushable()
         # TODO animation!
         crushable.disabled = True
         crushable.batch = None

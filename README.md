@@ -1,4 +1,4 @@
-pyglet-stuff
+#(THERE IS MOFFIN') SNAKES ETC. ON THIS (MOFFIN') PLAIN  ex. Kissat Ovat Mulkkuja >:3
 ============
 
 Game made in Global Game Jam 2014, at Jyväskylä.

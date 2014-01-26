@@ -12,8 +12,26 @@ fx_bird_spawn = pyglet.media.load("resources/audio/bird_spawn.wav", streaming=Fa
 fx_cat_spawn = pyglet.media.load("resources/audio/cat_spawn.wav", streaming=False)
 fx_elephant_spawn = pyglet.media.load("resources/audio/elephant_spawn.wav", streaming=False)
 fx_snake_spawn = pyglet.media.load("resources/audio/snake_spawn.wav", streaming=False)
+
+fx_crushable = pyglet.media.load("resources/audio/death.wav", streaming=False)
+fx_bump = pyglet.media.load("resources/audio/hit.wav", streaming=False)
+
 music_elefanttimarssi = pyglet.media.load("resources/audio/elefanttimarssi.wav", streaming=False)
 music_theme = pyglet.media.load("resources/audio/theme.wav", streaming=False)
+
+
+def bump():
+    """
+    Players collide with each other.
+    """
+    fx_bump.play()
+
+
+def crushable():
+    """
+    Elephant crushes a tile.
+    """
+    fx_crushable.play()
 
 
 def death(form):

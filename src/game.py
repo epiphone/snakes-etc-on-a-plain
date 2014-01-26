@@ -91,6 +91,7 @@ def update(dt):
 
     if distance(game_map.player1.position, game_map.player2.position) < 50:
         if can_collide:
+            audio.bump()
             if abs(game_map.player1.vel_x) > abs(game_map.player2.vel_x):
                 game_map.player2.vel_x = game_map.player1.vel_x
                 game_map.player1.vel_x *= -1

@@ -37,6 +37,7 @@ anim_splatter = pyglet.image.Animation.from_image_sequence(imgs_splatter,
                                                            0.175, True)
 
 img_swoosh = pyglet.resource.image('MudTop.png')
-img_tile = pyglet.resource.image('tile.png')
+img_tile = pyglet.resource.image('Mud.png')
+img_toptile = pyglet.resource.image('MudTop.png')
 img_trap = pyglet.resource.image('trap.png')
-img_crushable = pyglet.resource.image('Mud.png')
+img_crushable = pyglet.resource.image('tile.png')

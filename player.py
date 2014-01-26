@@ -265,12 +265,17 @@ class Player(PhysicalObject):
             self.x += self.vel_x*dt
 
 
+    def on_animation_end(self):
+        """Hack to hide self after splatter anim has ended."""
+        if self.image == resources.anim_splatter:
+            self.position = (-9999, -9999)
+
+
+
     def die(self, collider=None):
         # audio.death(self.form)
         self.is_dead = True
-        self.x = -99999
-        self.y = -99999 # hack to prevent collisions
-        self.batch = None
+        self.image = resources.anim_splatter
 
 
     def crush(self, crushable):

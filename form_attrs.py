@@ -39,7 +39,7 @@ def set_form(player, form):
     elif form == 'elephant':
         player.form = form
         player.image = resources.anim_elephant
-        player.jump_speed = 1400
+        player.jump_speed = 1000
         player.jump_fall_speed = 5000
         player.top_speed = 500
         player.speed_increment = 15

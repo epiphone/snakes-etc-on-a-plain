@@ -20,7 +20,8 @@ anim_snake = pyglet.image.Animation.from_image_sequence(subimgs_snake, 0.05, Tru
 imgs_bird = [pyglet.resource.image('Bird%d.png' % i) for i in range(2)]
 anim_bird = pyglet.image.Animation.from_image_sequence(imgs_bird, 0.05, True)
 
-
+imgs_splatter = [pyglet.resource.image('BloodExplosion%d.png' % i) for i in range(2)]
+anim_splatter = pyglet.image.Animation.from_image_sequence(imgs_splatter, 0.175, True)
 
 img_swoosh = pyglet.resource.image('MudTop.png')
 img_tile = pyglet.resource.image('tile.png')

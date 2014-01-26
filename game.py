@@ -5,7 +5,6 @@ Draws heavily from http://steveasleep.com/pyglettutorial.html
 """
 
 import pyglet
-from pyglet.window import key
 import maps
 from utils import distance
 import sys

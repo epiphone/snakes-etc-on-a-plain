@@ -289,8 +289,10 @@ class Player(PhysicalObject):
             return
         audio.crushable()
         # TODO animation!
-        crushable.disabled = True
-        crushable.batch = None
+        crushable.destroy()
+        # crushable.disabled = True
+
+        # crushable.batch = None
 
     def set_falling(self, is_falling):
         if self.is_falling:

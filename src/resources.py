@@ -25,11 +25,22 @@ anim_bird_glide = imgs_bird[0]
 
 imgs_splatter = [pyglet.resource.image('BloodExplosion%d.png' % i)
                  for i in range(2)]
-anim_splatter = pyglet.image.Animation.from_image_sequence(imgs_splatter,
-                                                           0.175, True)
+anim_splatter = pyglet.image.Animation.from_image_sequence(imgs_splatter, 0.175, True)
+
+imgs_spike = [pyglet.resource.image('Spikes%d.png' % i)
+                 for i in range(2)]
+anim_spike = pyglet.image.Animation.from_image_sequence(imgs_spike, 0.175, True)
+
+
+img_indicator1 = pyglet.resource.image('One.png')
+img_indicator2 = pyglet.resource.image('Two.png')
 
 img_swoosh = pyglet.resource.image('MudTop.png')
 img_tile = pyglet.resource.image('Mud.png')
 img_toptile = pyglet.resource.image('MudTop.png')
-img_trap = pyglet.resource.image('trap.png')
-img_crushable = pyglet.resource.image('tile.png')
+img_crushable = pyglet.resource.image('MudBreakable.png')
+img_goal = pyglet.resource.image('trap.png')
+
+imgs_crumble = [pyglet.resource.image('MudExplosion%d.png' % i)
+                 for i in range(2)]
+anim_crumble = pyglet.image.Animation.from_image_sequence(imgs_crumble, 0.175, True)

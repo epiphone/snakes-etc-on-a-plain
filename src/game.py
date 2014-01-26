@@ -8,6 +8,7 @@ import pyglet
 import maps
 from utils import distance
 import sys
+import audio
 
 game_window = pyglet.window.Window(800, 600)
 main_batch = None
@@ -132,6 +133,7 @@ def main():
         load_maps()
         init_map()
 
+    audio.theme()
     pyglet.clock.schedule_interval(update, 1/60.0)
     pyglet.app.run()
 

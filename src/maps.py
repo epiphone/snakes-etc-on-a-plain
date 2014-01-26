@@ -3,7 +3,7 @@ Everything map-related.
 """
 
 from player import Player
-from map_objs import Tile, Trap, Crushable
+from map_objs import Tile, Trap, Crushable, Goal
 import resources
 
 
@@ -65,6 +65,7 @@ class Map(object):
             'X': Tile,
             'v': Trap,
             'h': Crushable,
+            'G': Goal,
             ' ': None
         }
 

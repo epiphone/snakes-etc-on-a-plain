@@ -13,7 +13,7 @@ import audio
 game_window = pyglet.window.Window(800, 600)
 main_batch = None
 game_objects = []
-scroll_speed = 50
+scroll_speed = 100
 tile_size = 64
 game_map = None
 levels = []
@@ -37,6 +37,9 @@ def init_menu():
     global menu_batch, displaying_menu
     displaying_menu = True
     menu_batch = pyglet.graphics.Batch()
+    placeholder_label = pyglet.text.Label(
+        text="press any key", x=400, y=300, anchor_x='center', batch=menu_batch)
+
 
 
 

@@ -121,8 +121,6 @@ def update(dt):
 
 
 
-
-
 def main():
     """
     Initialize and run.

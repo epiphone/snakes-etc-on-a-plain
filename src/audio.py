@@ -17,7 +17,7 @@ fx_crushable = pyglet.media.load("resources/audio/death.wav", streaming=False)
 fx_bump = pyglet.media.load("resources/audio/hit.wav", streaming=False)
 
 music_elefanttimarssi = pyglet.media.load("resources/audio/elefanttimarssi.wav", streaming=False)
-music_theme = pyglet.media.load("resources/audio/theme.mp3", streaming=False)
+music_theme = pyglet.media.load("resources/audio/theme.wav", streaming=False)
 
 music_player = pyglet.media.Player()
 music_player.eos_action = pyglet.media.Player.EOS_LOOP

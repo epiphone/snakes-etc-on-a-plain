@@ -1,0 +1,15 @@
+-.,.-*# Running game from source #*-.,.-
+
+Get python2.7.x and pip from homebrew. Setup path for brew python version before system built-in python.
+
+
+Current Pyglet distribution on pip behaves badly on 64-bit OSX.
+
+-> Get and install it straight from mercurial repo:
+
+   pip install hg+https://pyglet.googlecode.com/hg/
+
+Now game.py should run the game.
+
+
+Dash character is not recognized though, so no bird for p2 :c

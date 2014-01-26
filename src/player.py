@@ -8,6 +8,7 @@ from physicalobject import PhysicalObject
 from map_objs import Tile, Trap, Crushable
 from form_attrs import set_form
 import audio
+import pyglet
 
 DEFAULT = 'default'
 BIRD = 'bird'
@@ -18,7 +19,7 @@ CAT = 'cat'
 class Player(PhysicalObject):
     """PhysicalObject with input capabilities."""
 
-    def __init__(self, use_arrow_keys=False, pushes_other_player=False, *args, **kwargs):
+    def __init__(self, ind_img, use_arrow_keys=False, pushes_other_player=False, *args, **kwargs):
         super(Player, self).__init__(img=resources.anim_snake, *args, **kwargs)
 
         self.key_handler = key.KeyStateHandler()
@@ -31,8 +32,9 @@ class Player(PhysicalObject):
         self.is_jumping = False
         self.jump_clicked = False
         self.prev_key = None  # for elephant stomping
+        self.indicator_sprite = pyglet.sprite.Sprite(img=ind_img, *args, **kwargs)
 
-        self.set_keys(use_arrow_keys)
+        self.use_arrow_keys = use_arrow_keys
         self.set_form(DEFAULT)
 
 
@@ -41,10 +43,11 @@ class Player(PhysicalObject):
         audio.spawn(form)
         self.vel_y = -10
         set_form(self, form)
+        self.set_keys()
 
 
-    def set_keys(self, use_arrow_keys):
-        if use_arrow_keys:
+    def set_keys(self):
+        if self.use_arrow_keys:
             self.keys = {
                 'up': key.UP,'down': key.DOWN,'left': key.LEFT,'right': key.RIGHT
             }
@@ -52,6 +55,12 @@ class Player(PhysicalObject):
             self.keys = {
                 'up': key.W, 'down': key.S, 'left': key.A, 'right': key.D
             }
+        if self.form == CAT:
+            # cat is an asshole
+            temp_r_key = self.keys['right']
+            self.keys['right'] = self.keys['left']
+            self.keys['left'] = temp_r_key
+            self.keys['up'] = self.keys['down']
 
     def get_prioritized_obj(self, objs):
         """
@@ -83,8 +92,6 @@ class Player(PhysicalObject):
 
 
     def update(self, dt, game_map):
-        keys = self.keys
-
         # Elephant moves by repeating left and right keys:
         if self.form == ELEPHANT and (self.key('left') or self.key('right')):
             if self.key('left') and self.key('right'):
@@ -269,6 +276,10 @@ class Player(PhysicalObject):
         else:
             self.x += self.vel_x*dt
 
+        self.indicator_sprite.x = self.x + self.width - 5
+        self.indicator_sprite.y = self.y + 5
+
+
 
     def on_animation_end(self):
         """Hack to hide self after splatter anim has ended."""
@@ -279,6 +290,7 @@ class Player(PhysicalObject):
     def die(self, collider=None):
         if self.is_dead:
             return
+        self.indicator_sprite.batch = None
         audio.death(self.form)
         self.is_dead = True
         self.image = resources.anim_splatter

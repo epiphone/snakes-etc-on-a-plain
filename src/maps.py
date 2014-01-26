@@ -40,7 +40,7 @@ class Map(object):
         self.scroll_x += self.scroll_speed * dt
         for row in self.rows:
             for obj in row:
-                if obj is not None: #and type(obj) != Player:
+                if obj is not None:
                     obj.x -= self.scroll_speed * dt
 
 
@@ -64,6 +64,7 @@ class Map(object):
             'x': Tile,
             'X': Tile,
             'v': Trap,
+            'V': Trap,
             'h': Crushable,
             'G': Goal,
             ' ': None
@@ -88,11 +89,12 @@ class Map(object):
                 elif obj == Player:
                     if player1 is None:
                         player1 = Player(x=left_top_x, y=left_top_y-self.tile_size + 1,
-                            batch=self.batch, pushes_other_player=True)
+                            ind_img=resources.img_one, batch=self.batch, pushes_other_player=True)
                         row.append(player1)
                     else:
                         player2 = Player(x=left_top_x, y=left_top_y-self.tile_size + 1,
-                            use_arrow_keys=True, pushes_other_player=False, batch=self.batch)
+                            ind_img=resources.img_two, use_arrow_keys=True,
+                            pushes_other_player=False, batch=self.batch)
                         row.append(player2)
                 elif obj == Tile:
                     tile = obj(x=left_top_x, y=left_top_y - self.tile_size + 1,

@@ -9,6 +9,7 @@ import maps
 from utils import distance
 import sys
 import audio
+import resources
 
 game_window = pyglet.window.Window(800, 600)
 main_batch = None
@@ -20,6 +21,10 @@ levels = []
 
 displaying_menu = False
 menu_batch = None
+logo_sprite = None
+prompt_sprite = None
+controls_sprite = None
+
 
 def init_map(map_to_init=None):
     """
@@ -34,11 +39,15 @@ def init_map(map_to_init=None):
 
 
 def init_menu():
-    global menu_batch, displaying_menu
+    global menu_batch, displaying_menu, logo_sprite, controls_sprite, prompt_sprite
     displaying_menu = True
     menu_batch = pyglet.graphics.Batch()
-    placeholder_label = pyglet.text.Label(
-        text="press any key", x=400, y=300, anchor_x='center', batch=menu_batch)
+    logo_sprite = pyglet.sprite.Sprite(resources.img_logo, batch=menu_batch,
+        x=game_window.width/2 - resources.img_logo.width/2, y=400)
+    controls_sprite = pyglet.sprite.Sprite(resources.img_controls, batch=menu_batch,
+        x=game_window.width/2 - resources.img_controls.width/2, y=100)
+    prompt_sprite = pyglet.sprite.Sprite(resources.img_prompt, batch=menu_batch,
+        x=game_window.width/2 - resources.img_prompt.width/2, y=50)
 
 
 

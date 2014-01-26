@@ -23,8 +23,8 @@ displaying_menu = False
 menu_batch = None
 logo_sprite = None
 prompt_sprite = None
+prompt_scaler = 1
 controls_sprite = None
-
 
 def init_map(map_to_init=None):
     """
@@ -111,10 +111,12 @@ def update(dt):
     """
     Updates the game world by given timestep.
     """
-    global can_collide, levels, displaying_menu
+    global can_collide, levels, displaying_menu, prompt_scaler
 
     if displaying_menu:
-        # TODO
+        if prompt_sprite.scale > 1.2 or prompt_sprite.scale < 0.8:
+            prompt_scaler *= -1
+        prompt_sprite.scale += dt*prompt_scaler
         return
 
     game_map.scroll_map(dt)
@@ -167,6 +169,7 @@ def main():
         init_menu()
         # init_map()
 
+    pyglet.gl.glClearColor(0.06, 0.51, 0.74, 1)
     audio.theme()
     pyglet.clock.schedule_interval(update, 1/60.0)
     pyglet.app.run()

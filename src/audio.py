@@ -19,6 +19,8 @@ fx_bump = pyglet.media.load("resources/audio/hit.wav", streaming=False)
 music_elefanttimarssi = pyglet.media.load("resources/audio/elefanttimarssi.wav", streaming=False)
 music_theme = pyglet.media.load("resources/audio/theme.wav", streaming=False)
 
+music_player = pyglet.media.Player()
+music_player.eos_action = pyglet.media.Player.EOS_LOOP
 
 def bump():
     """
@@ -64,4 +66,5 @@ def elefanttimarssi():
     music_elefanttimarssi.play()
 
 def theme():
-    music_theme.play()
+    music_player.queue(music_theme)
+    music_player.play()

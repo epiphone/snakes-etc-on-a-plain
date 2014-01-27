@@ -12,7 +12,7 @@ Game made in Global Game Jam 2014, at Jyväskylä.
 ##Dependencies
 Python 2.7
 
-Pyglet 1.2
+Pyglet 1.2 (http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyglet for Windows)
 
 ##Run
 python game.py

@@ -34,8 +34,12 @@ def init_map(map_to_init=None):
     global game_map, main_batch
     main_batch = pyglet.graphics.Batch()
     map_to_init = map_to_init or levels[0]
+
+    if game_map:
+        game_map.delete()  # flushes all sprites
+
     game_map = maps.Map(map_to_init, main_batch, scroll_speed)
-    game_window.remove_handlers() #TODO clear memory
+    game_window.remove_handlers()
     game_window.push_handlers(game_map.player1.key_handler)
     game_window.push_handlers(game_map.player2.key_handler)
 
@@ -59,7 +63,7 @@ def load_maps(fname="map%d.txt"):
     i = 0
     while True:
         try:
-            map_str = open(fname % i).read()
+            map_str = open("maps/" + fname % i).read()
             levels.append(map_str)
             i += 1
         except IOError:
@@ -174,7 +178,6 @@ def main():
     else:
         load_maps()
         init_menu()
-        # init_map()
 
     pyglet.gl.glClearColor(0.06, 0.51, 0.74, 1)
     audio.theme()

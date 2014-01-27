@@ -118,8 +118,6 @@ class Map(object):
 
 
     def get_columns(self):
-        """
-        """
         cols = []
         for i in range(len(self.rows[0])):
             col = []
@@ -139,3 +137,11 @@ class Map(object):
                 if obj is not None:
                     map_objs.append(obj)
         return map_objs
+
+
+    def delete(self):
+        """
+        Deletes all sprites in the map, including players.
+        """
+        for obj in self.get_map_objects():
+            obj.delete()

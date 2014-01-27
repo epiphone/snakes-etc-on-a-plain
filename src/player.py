@@ -324,3 +324,12 @@ class Player(PhysicalObject):
             else:
                 self.vel_y = -self.fall['speed']
         self.is_falling = is_falling
+
+
+    def delete(self):
+        """
+        Deletes child sprite before deleting self.
+        """
+        if self.indicator_sprite:
+            self.indicator_sprite.delete()
+        super(Player, self).delete()

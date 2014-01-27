@@ -15,8 +15,19 @@ Python 2.7
 Pyglet 1.2 (http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyglet for Windows)
 
 ##Run
-python game.py
+`python game.py`
 
+##Build .exe
+Requirements:
+ - python 2.7 32bit
+ - py2exe 32bit
+ - pyglet
+
+In the `src`-dir run:
+ - `python setup.py install`
+ - `python setup.py py2exe`
+
+Run the game from `release/win32/snakes-etc-on-a-plain.exe`
 
 ##Description
 

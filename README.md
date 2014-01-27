@@ -9,11 +9,6 @@ Game made in 48* hours at Global Game Jam 2014, Jyväskylä.
 * __Jussi Lundelin__ - design, maps
 * __Aleksi Pekkala__ - programming
 
-##Dependencies
-Python 2.7
-
-Pyglet 1.2 (http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyglet for Windows)
-
 ##Run
 `python game.py`
 
@@ -21,7 +16,7 @@ Pyglet 1.2 (http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyglet for Windows)
 Requirements:
  - python 2.7 32bit
  - py2exe 32bit
- - pyglet
+ - pyglet 1.2
 
 In the `src`-dir run:
  - `python setup.py install`

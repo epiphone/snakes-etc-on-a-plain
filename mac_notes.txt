@@ -10,6 +10,3 @@ Current Pyglet distribution on pip behaves badly on 64-bit OSX.
    pip install hg+https://pyglet.googlecode.com/hg/
 
 Now game.py should run the game.
-
-
-Dash character is not recognized though, so no bird for p2 :c

@@ -1,5 +1,7 @@
 #(THERE IS MOFFIN') SNAKES ETC. ON THIS (MOFFIN') PLAIN
 
+![alt text](https://raw2.github.com/epiphone/snakes-etc-on-a-plain/master/press/screenshot-intro.png)
+
 
 Game made in 48* hours at Global Game Jam 2014, Jyväskylä.
 

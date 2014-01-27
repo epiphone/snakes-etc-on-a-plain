@@ -44,4 +44,4 @@ _"I didn't have a clue what I was doing."_
 
 __5/5__
 
-* A single game-breaking bug was fixed later. Also an installer was added, thanks to [Olli](https://github.com/gildean)
+\* A single game-breaking bug was fixed later. Also an installer was added, thanks to [Olli](https://github.com/gildean)

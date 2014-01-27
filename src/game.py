@@ -63,7 +63,7 @@ def load_maps(fname="map%d.txt"):
     i = 0
     while True:
         try:
-            map_str = open("maps/" + fname % i).read()
+            map_str = open(fname % i).read()
             levels.append(map_str)
             i += 1
         except IOError:

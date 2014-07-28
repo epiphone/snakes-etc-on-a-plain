@@ -5,7 +5,7 @@
 
 Game made in 48* hours at Global Game Jam 2014, Jyväskylä.
 
-* __Samuli Alajärvelä__ - music & sound effects
+* __[Sami Singh](http://soundcloud.com/alajarvela)__ - music & sound effects
 * __Jonne Harja__ - production, design
 * __Matti Kinnunen__ - graphics, design
 * __Jussi Lundelin__ - design, maps
